@@ -64,7 +64,13 @@ public class MyFrame extends JFrame implements KeyListener{
 			drawing.spawnEnemy();
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_X){
-			drawing.usePotion();
+			drawing.useHpPotion();
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_C){
+			drawing.useMpPotion();
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_A){
+			drawing.hero1.magic();
 		}
 	}
 

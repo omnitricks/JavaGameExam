@@ -14,6 +14,10 @@ import java.awt.Font;
 public class Draw extends JComponent{
 
 	public BufferedImage backgroundImage;
+	public BufferedImage Gold;
+	public BufferedImage potionRed;
+	public BufferedImage potionBlue;
+	public BufferedImage fireBall;
 	int monY = 355;
 	int monX = 650;
 	
@@ -25,6 +29,7 @@ public class Draw extends JComponent{
 	
 	// enemy
 	Random rand = new Random();
+	Random rand2 = new Random();
 	
 	public int enemyCount = 0;
 	Monster[] monsters = new Monster[10];
@@ -36,11 +41,14 @@ public class Draw extends JComponent{
 		try{
 			hero1.image = ImageIO.read(hero1.resource);
 			backgroundImage = ImageIO.read(getClass().getResource("background.jpg"));
+			Gold = ImageIO.read(getClass().getResource("resources/Gold.png"));
+			potionRed = ImageIO.read(getClass().getResource("resources/potionRed.png"));
+			potionBlue = ImageIO.read(getClass().getResource("resources/potionBlue.png"));
+			fireBall= ImageIO.read(getClass().getResource("resources/fireBall.png"));
 		}
 		catch(IOException e){
 			e.printStackTrace();
 		}
-
 		hero1.height = hero1.image.getHeight();
 		hero1.width = hero1.image.getWidth();
 
@@ -88,9 +96,13 @@ public class Draw extends JComponent{
 	//Drop Chance Potion
 	public void dropPotion(){
 		int drop = rand.nextInt(99);
-		if(drop>=74){
-			hero1.potion += 1;
-			System.out.println("[Potion] Dropped, " + hero1.potion);
+		int type = rand2.nextInt(9);
+		if(drop>=74 && type<=4){
+			hero1.hppotion += 1;
+			System.out.println("[HP][Potion] Dropped, " + hero1.hppotion);
+		}else if(drop>=74 && type>=5){
+			hero1.mppotion += 1;
+			System.out.println("[MP][Potion] Dropped, " + hero1.mppotion);
 		}
 	}
 	//Drop Gold
@@ -163,6 +175,24 @@ public class Draw extends JComponent{
 			}
 		}
 	}
+	
+	public void checkCollisionMagic(){
+		for(int x = 0; x < monsters.length; x++){
+			boolean collide = false;
+			
+			if(monsters[x]!=null && monsters[x].alive){
+				if(hero1.Magic().intersects(monsters[x].Monster())){
+					collide = true;
+				}else{
+					collide = false;
+				}
+			}
+			if(collide){
+				System.out.println("magic collision!");
+				monsters[x].contact = true;
+			}
+		}
+	}
 	//Attack for Hero
 	public void checkDamage(){
 		for(int x=0; x<monsters.length; x++){
@@ -174,27 +204,45 @@ public class Draw extends JComponent{
 		}
 	}
 	//Heal with Item
-	public void usePotion(){
-		if(hero1.potion>=1 && hero1.hp<hero1.maxhp){
-			hero1.potion--;
+	public void useHpPotion(){
+		if(hero1.hppotion>=1 && hero1.hp<hero1.maxhp){
+			hero1.hppotion--;
 			hero1.hp = hero1.hp + (hero1.maxhp/10);
 			if(hero1.hp>hero1.maxhp){
 				hero1.hp = hero1.maxhp;
 			}
-			System.out.println("[Hero] used a [Potion]," + hero1.potion + " [Potion] left");
+			System.out.println("[Hero] used a [HP][Potion]," + hero1.hppotion + " [Potion] left");
 			System.out.println("[Hero] HP: " + hero1.hp);
-		}else if(hero1.potion==0){
-			System.out.println("No [Potion] left");
+		}else if(hero1.hppotion==0){
+			System.out.println("No [HP][Potion] left");
 		}
 		else{
 			System.out.println("[Hero]'s HP is still full");
 		}
 	}
+	//MP restore
+	public void useMpPotion(){
+		if(hero1.mppotion>=1 && hero1.mp<hero1.maxmp){
+			hero1.mppotion--;
+			hero1.mp = hero1.mp + (hero1.maxmp/10);
+			if(hero1.mp>hero1.maxmp){
+				hero1.mp = hero1.maxmp;
+			}
+			System.out.println("[Hero] used a [MP][Potion]," + hero1.mppotion + " [Potion] left");
+			System.out.println("[Hero] MP: " + hero1.mp);
+		}else if(hero1.hppotion==0){
+			System.out.println("No [MP][Potion] left");
+		}
+		else{
+			System.out.println("[Hero]'s MP is still full");
+		}
+	}
 	
-	
+	public void create(){
+		hero1.magic = true;
+	}
 	
 	/*Draw Attributes*/
-	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		g.setColor(Color.YELLOW);
@@ -255,11 +303,29 @@ public class Draw extends JComponent{
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("default", Font.ITALIC, 10));
 		g.drawString(hero1.mp + " / " + hero1.maxmp, 10, heightBG+92);
-		
-		
+		//Sprite Items
+		//Gold
+		g.drawImage(Gold, 250, heightBG+5, 20, 20, this);
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("default", Font.BOLD, 11));
+		g.drawString(" x " + hero1.gold, 275, heightBG+20);
+		//potionHP
+		g.drawImage(potionRed, 250, heightBG+30, 20, 20, this);
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("default", Font.BOLD, 11));
+		g.drawString(" x " + hero1.hppotion, 275, heightBG+45);
+		//potionMP
+		g.drawImage(potionBlue, 250, heightBG+55, 20, 20, this);
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("default", Font.BOLD, 11));
+		g.drawString(" x " + hero1.mppotion, 275, heightBG+70);
 		
 
 		g.drawImage(hero1.image, hero1.x, hero1.y, this);
+		
+		if(hero1.magic){
+			g.drawImage(fireBall, hero1.xMagic, hero1.yMagic, 30, 20, this);
+		}	
 		
 		for(int c = 0; c < monsters.length; c++){
 			if(monsters[c]!=null){

@@ -12,14 +12,17 @@ import java.awt.Rectangle;
 public class Hero{
 	
 	public BufferedImage image;
-	public URL resource = getClass().getResource("attack0.png");
+	public URL resource = getClass().getResource("Hero/attack0.png");
 
 	// circle's position
 	public int x = 300;
 	public int y = 300;
+	public int xMagic = 0;
+	public int yMagic = 0;
 	public int height = 0;
 	public int width = 0;
 	public boolean contact = false;
+	public boolean magic = false;
 	public int yBound = 355;
 	public int xBound = 650;
 	
@@ -35,7 +38,8 @@ public class Hero{
 	public int mp = 90;
 	public int atk = 10;
 	public int gold = 100;
-	public int potion = 5;
+	public int hppotion = 5;
+	public int mppotion = 5;
 	public int exp = 0;
 	public int level = 5;
 	public int required = 100;
@@ -55,42 +59,42 @@ public class Hero{
 		state++;
 		if(direction == 0){
 			if(state == 0){
-				resource = getClass().getResource("run0.png");
+				resource = getClass().getResource("Hero/run0.png");
 			}
 			else if(state == 1){
-				resource = getClass().getResource("run1.png");
+				resource = getClass().getResource("Hero/run1.png");
 			}
 			else if(state == 2){
-				resource = getClass().getResource("run2.png");
+				resource = getClass().getResource("Hero/run2.png");
 			}
 			else if(state == 3){
-				resource = getClass().getResource("run3.png");
+				resource = getClass().getResource("Hero/run3.png");
 			}
 			else if(state == 4){
-				resource = getClass().getResource("run4.png");
+				resource = getClass().getResource("Hero/run4.png");
 			}
 			else if(state == 5){
-				resource = getClass().getResource("run5.png");
+				resource = getClass().getResource("Hero/run5.png");
 				state = 0;
 			}
 		}else {
 			if(state == 0){
-				resource = getClass().getResource("run0alt.png");
+				resource = getClass().getResource("Hero/run0alt.png");
 			}
 			else if(state == 1){
-				resource = getClass().getResource("run1alt.png");
+				resource = getClass().getResource("Hero/run1alt.png");
 			}
 			else if(state == 2){
-				resource = getClass().getResource("run2alt.png");
+				resource = getClass().getResource("Hero/run2alt.png");
 			}
 			else if(state == 3){
-				resource = getClass().getResource("run3alt.png");
+				resource = getClass().getResource("Hero/run3alt.png");
 			}
 			else if(state == 4){
-				resource = getClass().getResource("run4alt.png");
+				resource = getClass().getResource("Hero/run4alt.png");
 			}
 			else if(state == 5){
-				resource = getClass().getResource("run5alt.png");
+				resource = getClass().getResource("Hero/run5alt.png");
 				state = 0;
 			}
 		}
@@ -103,7 +107,7 @@ public class Hero{
 		comp.repaint();
 	}
 	
-	//Attack ANimation & Calculation
+	//Attack Animation & Calculation
 	public void attackAnimation(){
 		Thread thread1 = new Thread(new Runnable(){
 			public void run(){
@@ -111,10 +115,10 @@ public class Hero{
 					for(int ctr = 0; ctr < 5; ctr++){
 						try {
 							if(ctr==4){
-								resource = getClass().getResource("run0.png");
+								resource = getClass().getResource("Hero/run0.png");
 							}
 							else{
-								resource = getClass().getResource("attack"+ctr+".png");
+								resource = getClass().getResource("Hero/attack"+ctr+".png");
 							}
 							
 							try{
@@ -133,10 +137,10 @@ public class Hero{
 					for(int ctr = 0; ctr < 5; ctr++){
 						try {
 							if(ctr==4){
-								resource = getClass().getResource("run0alt.png");
+								resource = getClass().getResource("Hero/run0alt.png");
 							}
 							else{
-								resource = getClass().getResource("attack"+ctr+"alt.png");
+								resource = getClass().getResource("Hero/attack"+ctr+"alt.png");
 							}
 							
 							try{
@@ -158,6 +162,26 @@ public class Hero{
 		thread1.start();
 		comp.checkCollision();
 		comp.checkDamage();
+	}
+	
+	public void magic(){
+		if(mp>=20){
+			//mp = mp - 20;
+			xMagic = x;
+			yMagic = y;
+			if(direction == 0){
+				comp.create();
+				comp.checkCollisionMagic();
+				xMagic++;
+				comp.checkDamage();
+			}
+			else if(direction == 1){
+				comp.create();
+				comp.checkCollisionMagic();
+				xMagic--;
+				comp.checkDamage();
+			}
+		}
 	}
 	
 	//Attack Method
@@ -252,6 +276,11 @@ public class Hero{
 	//Hero CC
 	public Rectangle Hero(){
 		Rectangle bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
+		return bounds;
+	}
+	
+	public Rectangle Magic(){
+		Rectangle bounds = new Rectangle(x, y, 40, 30);
 		return bounds;
 	}
 }

@@ -69,9 +69,7 @@ public class MyFrame extends JFrame implements KeyListener{
 		else if(e.getKeyCode() == KeyEvent.VK_C){
 			drawing.useMpPotion();
 		}
-		else if(e.getKeyCode() == KeyEvent.VK_A){
-			drawing.hero1.magic();
-		}
+
 	}
 
 	public void keyReleased(KeyEvent e){

@@ -17,19 +17,18 @@ public class Hero{
 	// circle's position
 	public int x = 300;
 	public int y = 300;
-	public int xMagic = 0;
-	public int yMagic = 0;
 	public int height = 0;
 	public int width = 0;
 	public boolean contact = false;
-	public boolean magic = false;
-	public int yBound = 355;
-	public int xBound = 650;
+	private int yBound = 355;
+	private int xBound = 650;
 	
-	public int direction = 0;
+	private int direction = 0;
 	//0-right 1-left
 	
 	// hero stats
+	public String name = "Admin";
+	public String title = "God";
 	public int limithp = 300;
 	public int maxhp = 100;
 	public int hp = 100;
@@ -46,7 +45,7 @@ public class Hero{
 	
 
 	// animation states
-	public int state = 0;
+	private int state = 0;
 	
 	public Draw comp;
 	
@@ -164,26 +163,6 @@ public class Hero{
 		comp.checkDamage();
 	}
 	
-	public void magic(){
-		if(mp>=20){
-			//mp = mp - 20;
-			xMagic = x;
-			yMagic = y;
-			if(direction == 0){
-				comp.create();
-				comp.checkCollisionMagic();
-				xMagic++;
-				comp.checkDamage();
-			}
-			else if(direction == 1){
-				comp.create();
-				comp.checkCollisionMagic();
-				xMagic--;
-				comp.checkDamage();
-			}
-		}
-	}
-	
 	//Attack Method
 	public void attack(){
 		attackAnimation();
@@ -270,17 +249,12 @@ public class Hero{
 		}
 		mp = maxmp;
 		System.out.println("You Leveled Up!");
-		System.out.println("[Hero] Lvl " + level);
+		System.out.println("[" + name + "] Lvl " + level);
 	}
 	
 	//Hero CC
 	public Rectangle Hero(){
 		Rectangle bounds = new Rectangle(x, y, image.getWidth(), image.getHeight());
-		return bounds;
-	}
-	
-	public Rectangle Magic(){
-		Rectangle bounds = new Rectangle(x, y, 40, 30);
 		return bounds;
 	}
 }

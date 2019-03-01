@@ -10,17 +10,17 @@ import java.awt.Rectangle;
 public class Monster{
 	public int xPos = 150;
 	public int yPos = 300;
-	public int width = 0;
-	public int height = 0;
+	private int width = 0;
+	private int height = 0;
 	public int life = 20;
 	public int atk = 1;
-	public boolean idle = true;
+	private boolean idle = true;
 	public boolean alive = true;
 	public boolean contact = false;
-	public int yBound = 355;
-	public int xBound = 650;
+	private int yBound = 355;
+	private int xBound = 650;
 	
-	public int direction = 0;
+	private int direction = 0;
 	//0-right 1-left
 
 	public BufferedImage image;

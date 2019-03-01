@@ -14,10 +14,9 @@ import java.awt.Font;
 public class Draw extends JComponent{
 
 	public BufferedImage backgroundImage;
-	public BufferedImage Gold;
-	public BufferedImage potionRed;
-	public BufferedImage potionBlue;
-	public BufferedImage fireBall;
+	private BufferedImage Gold;
+	private BufferedImage potionRed;
+	private BufferedImage potionBlue;
 	int monY = 355;
 	int monX = 650;
 	
@@ -28,8 +27,8 @@ public class Draw extends JComponent{
 	public Hero hero1 = new Hero(this);
 	
 	// enemy
-	Random rand = new Random();
-	Random rand2 = new Random();
+	private Random rand = new Random();
+	private Random rand2 = new Random();
 	
 	public int enemyCount = 0;
 	Monster[] monsters = new Monster[10];
@@ -44,14 +43,13 @@ public class Draw extends JComponent{
 			Gold = ImageIO.read(getClass().getResource("resources/Gold.png"));
 			potionRed = ImageIO.read(getClass().getResource("resources/potionRed.png"));
 			potionBlue = ImageIO.read(getClass().getResource("resources/potionBlue.png"));
-			fireBall= ImageIO.read(getClass().getResource("resources/fireBall.png"));
 		}
 		catch(IOException e){
 			e.printStackTrace();
 		}
 		hero1.height = hero1.image.getHeight();
 		hero1.width = hero1.image.getWidth();
-
+		
 		startGame();
 	}
 
@@ -72,10 +70,10 @@ public class Draw extends JComponent{
 					}
 				}
 			}
+			
 		});
 		gameThread.start();
 	}
-	
 	
 	/*ENEMY Attributes*/
 	//Spawn
@@ -145,7 +143,7 @@ public class Draw extends JComponent{
 			if(monsters[x]!=null && monsters[x].alive){
 				if(hero1.contact){
 					hero1.hp = hero1.hp -monsters[x].atk;
-					System.out.println("[Hero] HP: " + hero1.hp);
+					System.out.println("[" + hero1.name + "] HP: " + hero1.hp);
 					if(hero1.hp<=0){
 						hero1.hp = 0;
 					}
@@ -175,24 +173,7 @@ public class Draw extends JComponent{
 			}
 		}
 	}
-	
-	public void checkCollisionMagic(){
-		for(int x = 0; x < monsters.length; x++){
-			boolean collide = false;
-			
-			if(monsters[x]!=null && monsters[x].alive){
-				if(hero1.Magic().intersects(monsters[x].Monster())){
-					collide = true;
-				}else{
-					collide = false;
-				}
-			}
-			if(collide){
-				System.out.println("magic collision!");
-				monsters[x].contact = true;
-			}
-		}
-	}
+
 	//Attack for Hero
 	public void checkDamage(){
 		for(int x=0; x<monsters.length; x++){
@@ -211,13 +192,13 @@ public class Draw extends JComponent{
 			if(hero1.hp>hero1.maxhp){
 				hero1.hp = hero1.maxhp;
 			}
-			System.out.println("[Hero] used a [HP][Potion]," + hero1.hppotion + " [Potion] left");
-			System.out.println("[Hero] HP: " + hero1.hp);
+			System.out.println("[" + hero1.name + "] used a [HP][Potion]," + hero1.hppotion + " [Potion] left");
+			System.out.println("[" + hero1.name + "] HP: " + hero1.hp);
 		}else if(hero1.hppotion==0){
 			System.out.println("No [HP][Potion] left");
 		}
 		else{
-			System.out.println("[Hero]'s HP is still full");
+			System.out.println("[" + hero1.name + "]'s HP is still full");
 		}
 	}
 	//MP restore
@@ -228,18 +209,14 @@ public class Draw extends JComponent{
 			if(hero1.mp>hero1.maxmp){
 				hero1.mp = hero1.maxmp;
 			}
-			System.out.println("[Hero] used a [MP][Potion]," + hero1.mppotion + " [Potion] left");
-			System.out.println("[Hero] MP: " + hero1.mp);
+			System.out.println("[" + hero1.name + "] used a [MP][Potion]," + hero1.mppotion + " [Potion] left");
+			System.out.println("[" + hero1.name + "] MP: " + hero1.mp);
 		}else if(hero1.hppotion==0){
 			System.out.println("No [MP][Potion] left");
 		}
 		else{
-			System.out.println("[Hero]'s MP is still full");
+			System.out.println("[" + hero1.name + "]'s MP is still full");
 		}
-	}
-	
-	public void create(){
-		hero1.magic = true;
 	}
 	
 	/*Draw Attributes*/
@@ -255,8 +232,8 @@ public class Draw extends JComponent{
 		g.fillRect(0, heightBG, widthBG, 110);
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("default", Font.BOLD, 12));
-		g.drawString("[Admin]", 5, heightBG+15);
-		g.drawString("[Hero] Lvl " + hero1.level, 5, heightBG+30);
+		g.drawString("[" + hero1.name + "]", 5, heightBG+15);
+		g.drawString("[" + hero1.title + "] Lvl " + hero1.level, 5, heightBG+30);
 		g.setColor(Color.YELLOW);
 		g.setFont(new Font("default", Font.ITALIC, 10));
 		g.drawString((hero1.required-hero1.exp) + " [exp] needed", 3, heightBG+105);
@@ -322,10 +299,6 @@ public class Draw extends JComponent{
 		
 
 		g.drawImage(hero1.image, hero1.x, hero1.y, this);
-		
-		if(hero1.magic){
-			g.drawImage(fireBall, hero1.xMagic, hero1.yMagic, 30, 20, this);
-		}	
 		
 		for(int c = 0; c < monsters.length; c++){
 			if(monsters[c]!=null){

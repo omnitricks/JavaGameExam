@@ -138,10 +138,10 @@ public class Monster{
 				direction =1;
 			}
 
-			if(yPos<toY){
+			if(yPos-40<toY){
 				yPos++;
 			}
-			else if(yPos>toY){
+			else if(yPos-40>toY){
 				yPos--;
 			}
 		}

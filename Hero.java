@@ -12,7 +12,7 @@ import java.awt.Rectangle;
 public class Hero{
 	
 	public BufferedImage image;
-	public URL resource = getClass().getResource("Hero/attack0.png");
+	public URL resource = getClass().getResource("Knight/idle0.png");
 
 	// circle's position
 	public int x = 300;
@@ -20,15 +20,15 @@ public class Hero{
 	public int height = 0;
 	public int width = 0;
 	public boolean contact = false;
-	private int yBound = 355;
-	private int xBound = 650;
+	private int yBound = 318;
+	private int xBound = 635;
 	
-	private int direction = 0;
+	public int direction = 0;
 	//0-right 1-left
 	
 	// hero stats
 	public String name = "Admin";
-	public String title = "God";
+	public String title = "Phantasmal Knight";
 	public int limithp = 300;
 	public int maxhp = 100;
 	public int hp = 100;
@@ -58,42 +58,48 @@ public class Hero{
 		state++;
 		if(direction == 0){
 			if(state == 0){
-				resource = getClass().getResource("Hero/run0.png");
+				resource = getClass().getResource("Knight/idle0.png");
 			}
 			else if(state == 1){
-				resource = getClass().getResource("Hero/run1.png");
+				resource = getClass().getResource("Knight/run0.png");
 			}
 			else if(state == 2){
-				resource = getClass().getResource("Hero/run2.png");
+				resource = getClass().getResource("Knight/run1.png");
 			}
 			else if(state == 3){
-				resource = getClass().getResource("Hero/run3.png");
+				resource = getClass().getResource("Knight/run2.png");
 			}
 			else if(state == 4){
-				resource = getClass().getResource("Hero/run4.png");
+				resource = getClass().getResource("Knight/run3.png");
 			}
 			else if(state == 5){
-				resource = getClass().getResource("Hero/run5.png");
+				resource = getClass().getResource("Knight/run4.png");
+			}
+			else if(state == 6){
+				resource = getClass().getResource("Knight/run5.png");
 				state = 0;
 			}
 		}else {
 			if(state == 0){
-				resource = getClass().getResource("Hero/run0alt.png");
+				resource = getClass().getResource("Knight/idle0alt.png");
 			}
 			else if(state == 1){
-				resource = getClass().getResource("Hero/run1alt.png");
+				resource = getClass().getResource("Knight/run0alt.png");
 			}
 			else if(state == 2){
-				resource = getClass().getResource("Hero/run2alt.png");
+				resource = getClass().getResource("Knight/run1alt.png");
 			}
 			else if(state == 3){
-				resource = getClass().getResource("Hero/run3alt.png");
+				resource = getClass().getResource("Knight/run2alt.png");
 			}
 			else if(state == 4){
-				resource = getClass().getResource("Hero/run4alt.png");
+				resource = getClass().getResource("Knight/run3alt.png");
 			}
 			else if(state == 5){
-				resource = getClass().getResource("Hero/run5alt.png");
+				resource = getClass().getResource("Knight/run4alt.png");
+			}
+			else if(state == 6){
+				resource = getClass().getResource("Knight/run5alt.png");
 				state = 0;
 			}
 		}
@@ -111,13 +117,13 @@ public class Hero{
 		Thread thread1 = new Thread(new Runnable(){
 			public void run(){
 				if(direction == 0){
-					for(int ctr = 0; ctr < 5; ctr++){
+					for(int ctr = 0; ctr < 8; ctr++){
 						try {
-							if(ctr==4){
-								resource = getClass().getResource("Hero/run0.png");
+							if(ctr==7){
+								resource = getClass().getResource("Knight/idle0.png");
 							}
 							else{
-								resource = getClass().getResource("Hero/attack"+ctr+".png");
+								resource = getClass().getResource("Knight/attack"+ctr+".png");
 							}
 							
 							try{
@@ -133,13 +139,13 @@ public class Hero{
 						}
 					}
 				} else{
-					for(int ctr = 0; ctr < 5; ctr++){
+					for(int ctr = 0; ctr < 8; ctr++){
 						try {
-							if(ctr==4){
-								resource = getClass().getResource("Hero/run0alt.png");
+							if(ctr==7){
+								resource = getClass().getResource("Knight/idle0alt.png");
 							}
 							else{
-								resource = getClass().getResource("Hero/attack"+ctr+"alt.png");
+								resource = getClass().getResource("Knight/attack"+ctr+"alt.png");
 							}
 							
 							try{

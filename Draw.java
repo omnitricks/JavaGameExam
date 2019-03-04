@@ -23,8 +23,12 @@ public class Draw extends JComponent{
 	// randomizer
 	public Random randomizer;
 	
+	public boolean draw = false;
+	public boolean collide = false;
+	
 	// hero
 	public Hero hero1 = new Hero(this);
+	public Magic fireball = new Magic(this);
 	
 	// enemy
 	private Random rand = new Random();
@@ -58,12 +62,14 @@ public class Draw extends JComponent{
 			public void run(){
 				while(true){
 					try{
-						for(int c = 0; c < monsters.length; c++){
-							if(monsters[c]!=null){
-								monsters[c].moveTo(hero1.x ,hero1.y);
+						for(int x = 0; x < monsters.length; x++){
+							if(monsters[x]!=null){
+								monsters[x].moveTo(hero1.x ,hero1.y);
 								repaint();
 							}
 						}
+						
+						
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
 							e.printStackTrace();
@@ -88,7 +94,6 @@ public class Draw extends JComponent{
 	public void resetEnemy(){
 			enemyCount--;
 	}
-	
 	
 	/*ALL Attributes*/
 	//Drop Chance Potion
@@ -184,6 +189,65 @@ public class Draw extends JComponent{
 			}
 		}
 	}
+	
+	
+	//Magic
+	public void spawnMagic(){
+		Thread gameThread = new Thread(new Runnable(){
+			public void run(){
+				while(true){
+					try{					
+						if(fireball!=null){
+							draw = true;
+							fireball.moveTo(hero1.direction);
+							repaint();
+						}
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+							e.printStackTrace();
+					}
+				}
+			}
+			
+		});
+		gameThread.start();
+	
+	
+		if(hero1.mp>20){
+			fireball = new Magic(hero1.x, hero1.y, this);
+			System.out.println("magic cast");
+		}
+	}
+	
+	public void checkCollisionMagic(){
+		for(int x = 0; x < monsters.length; x++){
+			this.collide = false;
+			if(monsters[x]!=null && monsters[x].alive){
+				if(fireball.Magic().intersects(monsters[x].Monster())){
+					this.collide = true;
+				}else{
+					this.collide = false;
+				}
+			}
+			if(collide && !fireball.contact){
+				this.collide=false;
+				System.out.println("magic collision!");
+				monsters[x].contact = true;
+				fireball.contact = true;
+			}
+		}
+	}
+	
+	public void checkDamageMagic(){
+		for(int x=0; x<monsters.length; x++){
+			if(monsters[x]!=null && monsters[x].alive){
+				if(monsters[x].contact && fireball.contact){
+					monsters[x].life = monsters[x].life - 5;
+				}
+			}
+		}
+	}
+	
 	//Heal with Item
 	public void useHpPotion(){
 		if(hero1.hppotion>=1 && hero1.hp<hero1.maxhp){
@@ -308,5 +372,13 @@ public class Draw extends JComponent{
 				g.fillRect(monsters[c].xPos+7, monsters[c].yPos, monsters[c].life, 2);
 			}	
 		}
+		
+			if(draw){
+				if(hero1.direction==0){
+					g.drawImage(fireball.image, fireball.xMag, fireball.yMag + 40, 30, 20, this);
+				}else if(hero1.direction==1){
+					g.drawImage(fireball.imagealt, fireball.xMag, fireball.yMag + 40, 30, 20, this);
+				}
+			}	
 	}
 }

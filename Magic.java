@@ -118,9 +118,13 @@ public class Magic{
 		}
 	}
 	
-	//Monster CC
+	//Magic CC
 	public Rectangle Magic(){
 		Rectangle bounds = new Rectangle(xMag, yMag+40, 35, 40);
+		return bounds;
+	}
+	public Rectangle Magicalt(){
+		Rectangle bounds = new Rectangle(xMag+40, yMag+40, 35, 40);
 		return bounds;
 	}
 }

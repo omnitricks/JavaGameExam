@@ -83,7 +83,7 @@ public class MyFrame extends JFrame implements KeyListener{
 	}
 
 	public static void main(String args[]){
-		MyFrame gameFrame = new MyFrame();
 		System.out.println("[ISEKAI] GAME");
+		MyFrame gameFrame = new MyFrame();
 	}
 }

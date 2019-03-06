@@ -23,6 +23,7 @@ public class Draw extends JComponent{
 	// randomizer
 	public Random randomizer;
 	
+	public boolean check = true;
 	public boolean draw = false;
 	public boolean collide = false;
 	
@@ -193,9 +194,10 @@ public class Draw extends JComponent{
 	
 	//Magic
 	public void spawnMagic(){
-		Thread gameThread = new Thread(new Runnable(){
+		Thread magThread = new Thread(new Runnable(){
 			public void run(){
-				while(true){
+				check=true;
+				while(check){
 					try{					
 						if(fireball!=null){
 							draw = true;
@@ -210,7 +212,7 @@ public class Draw extends JComponent{
 			}
 			
 		});
-		gameThread.start();
+		magThread.start();
 	
 	
 		if(hero1.mp>20){
@@ -223,17 +225,27 @@ public class Draw extends JComponent{
 		for(int x = 0; x < monsters.length; x++){
 			this.collide = false;
 			if(monsters[x]!=null && monsters[x].alive){
-				if(fireball.Magic().intersects(monsters[x].Monster())){
-					this.collide = true;
-				}else{
-					this.collide = false;
+				if(hero1.direction==0){
+					if(fireball.Magicalt().intersects(monsters[x].Monster())){
+						this.collide = true;
+					}else{
+						this.collide = false;
+					}
+				}else if(hero1.direction==1){
+					if(fireball.Magic().intersects(monsters[x].Monster())){
+						this.collide = true;
+					}else{
+						this.collide = false;
+					}
 				}
 			}
-			if(collide && !fireball.contact){
+			if(collide==true && fireball.contact==false){
 				this.collide=false;
 				System.out.println("magic collision!");
 				monsters[x].contact = true;
 				fireball.contact = true;
+				draw=false;
+				check=false;
 			}
 		}
 	}
@@ -375,7 +387,7 @@ public class Draw extends JComponent{
 		
 			if(draw){
 				if(hero1.direction==0){
-					g.drawImage(fireball.image, fireball.xMag, fireball.yMag + 40, 30, 20, this);
+					g.drawImage(fireball.image, fireball.xMag+40, fireball.yMag + 40, 30, 20, this);
 				}else if(hero1.direction==1){
 					g.drawImage(fireball.imagealt, fireball.xMag, fireball.yMag + 40, 30, 20, this);
 				}

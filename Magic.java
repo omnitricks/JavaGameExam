@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 public class Magic{
 	public int xMag = 0;
 	public int yMag = 0;
+	public int atk = 30;
 	private int width = 0;
 	private int height = 0;
 	public boolean alive = true;

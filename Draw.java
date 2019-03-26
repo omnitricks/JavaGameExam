@@ -19,11 +19,12 @@ public class Draw extends JComponent{
 	private BufferedImage potionBlue;
 	int monY = 355;
 	int monX = 650;
+	public int direction = 0;
 	
 	// randomizer
 	public Random randomizer;
 	
-	public boolean check = true;
+	public boolean check = false;
 	public boolean draw = false;
 	public boolean collide = false;
 	
@@ -194,25 +195,36 @@ public class Draw extends JComponent{
 	
 	//Magic
 	public void spawnMagic(){
-		Thread magThread = new Thread(new Runnable(){
+		Thread gameThread = new Thread(new Runnable(){
 			public void run(){
-				check=true;
-				while(check){
-					try{					
-						if(fireball!=null){
-							draw = true;
-							fireball.moveTo(hero1.direction);
-							repaint();
+				check=false;
+				draw=false;
+				fireball.alive=false;
+				direction = hero1.direction;
+				if(hero1.mp>=20){
+					hero1.mp= hero1.mp - 20;
+					check=true;
+					while(check){
+						try{
+							fireball.alive=true;
+							if(fireball.alive==true){
+								draw = true;
+								fireball.moveTo(direction);
+								repaint();
+							}
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+								e.printStackTrace();
 						}
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-							e.printStackTrace();
 					}
+					fireball.alive=false;
+				}else{
+						System.out.println("not enough [MP]");
 				}
 			}
 			
 		});
-		magThread.start();
+		gameThread.start();
 	
 	
 		if(hero1.mp>20){
@@ -225,13 +237,13 @@ public class Draw extends JComponent{
 		for(int x = 0; x < monsters.length; x++){
 			this.collide = false;
 			if(monsters[x]!=null && monsters[x].alive){
-				if(hero1.direction==0){
+				if(direction==0){
 					if(fireball.Magicalt().intersects(monsters[x].Monster())){
 						this.collide = true;
 					}else{
 						this.collide = false;
 					}
-				}else if(hero1.direction==1){
+				}else if(direction==1){
 					if(fireball.Magic().intersects(monsters[x].Monster())){
 						this.collide = true;
 					}else{
@@ -254,7 +266,7 @@ public class Draw extends JComponent{
 		for(int x=0; x<monsters.length; x++){
 			if(monsters[x]!=null && monsters[x].alive){
 				if(monsters[x].contact && fireball.contact){
-					monsters[x].life = monsters[x].life - 5;
+					monsters[x].life = monsters[x].life - fireball.atk;
 				}
 			}
 		}
@@ -386,9 +398,10 @@ public class Draw extends JComponent{
 		}
 		
 			if(draw){
-				if(hero1.direction==0){
+				
+				if(direction==0){
 					g.drawImage(fireball.image, fireball.xMag+40, fireball.yMag + 40, 30, 20, this);
-				}else if(hero1.direction==1){
+				}else if(direction==1){
 					g.drawImage(fireball.imagealt, fireball.xMag, fireball.yMag + 40, 30, 20, this);
 				}
 			}	

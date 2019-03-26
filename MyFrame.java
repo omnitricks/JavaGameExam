@@ -3,10 +3,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class MyFrame extends JFrame implements KeyListener{
-
+	
 	Draw drawing;
 
 	public MyFrame(){
+		Sound.sound1.loop();
 		this.drawing = new Draw();
 		int heightBG = drawing.backgroundImage.getHeight() +149;
 		int widthBG = drawing.backgroundImage.getWidth() +16;
@@ -15,9 +16,8 @@ public class MyFrame extends JFrame implements KeyListener{
 		this.setVisible(true);
 		this.getContentPane().add(this.drawing);
 		this.addKeyListener(this);
-		
-	}
-
+	}	
+	
 	public void keyPressed(KeyEvent e){
 		boolean Up = false;
 		boolean Down = false;

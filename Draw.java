@@ -193,7 +193,8 @@ public class Draw extends JComponent{
 	}
 	
 	
-	//Magic
+	/*MAGIC Attributes*/
+	//Spawn
 	public void spawnMagic(){
 		Thread gameThread = new Thread(new Runnable(){
 			public void run(){
@@ -233,6 +234,7 @@ public class Draw extends JComponent{
 		}
 	}
 	
+	//Collison Check for Magic
 	public void checkCollisionMagic(){
 		for(int x = 0; x < monsters.length; x++){
 			this.collide = false;
@@ -262,6 +264,7 @@ public class Draw extends JComponent{
 		}
 	}
 	
+	//Damage Check for Magic
 	public void checkDamageMagic(){
 		for(int x=0; x<monsters.length; x++){
 			if(monsters[x]!=null && monsters[x].alive){
@@ -331,7 +334,6 @@ public class Draw extends JComponent{
 		g.setFont(new Font("default", Font.BOLD, 11));
 		g.drawString("HP:", 5, heightBG+44);
 		int hpLimitBar = (hero1.maxhp*100/hero1.limithp);
-		
 		g.setColor(Color.WHITE);
 		g.fillRect(9, heightBG+46 , hpLimitBar+2, 7);
 		g.setColor(Color.GREEN);
@@ -388,6 +390,7 @@ public class Draw extends JComponent{
 
 		g.drawImage(hero1.image, hero1.x, hero1.y, this);
 		
+		//Draw Monster
 		for(int c = 0; c < monsters.length; c++){
 			if(monsters[c]!=null){
 
@@ -396,14 +399,13 @@ public class Draw extends JComponent{
 				g.fillRect(monsters[c].xPos+7, monsters[c].yPos, monsters[c].life, 2);
 			}	
 		}
-		
-			if(draw){
-				
-				if(direction==0){
-					g.drawImage(fireball.image, fireball.xMag+40, fireball.yMag + 40, 30, 20, this);
-				}else if(direction==1){
-					g.drawImage(fireball.imagealt, fireball.xMag, fireball.yMag + 40, 30, 20, this);
-				}
-			}	
+		//Draw Magic
+		if(draw){	
+			if(direction==0){
+				g.drawImage(fireball.image, fireball.xMag+40, fireball.yMag + 40, 30, 20, this);
+			}else if(direction==1){
+				g.drawImage(fireball.imagealt, fireball.xMag, fireball.yMag + 40, 30, 20, this);
+			}
+		}	
 	}
 }

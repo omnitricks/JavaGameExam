@@ -56,7 +56,7 @@ public class Magic{
 		animate(comp);
 	}
 	
-	//Bounce?
+	//???
 	public void animate(final Draw compPass){
 		Thread magThread = new Thread(new Runnable(){
 			public void run(){
@@ -72,7 +72,7 @@ public class Magic{
 		});
 		magThread.start();
 	}
-	
+	//Die
 	public void die(final Draw compPass){
 		if(alive){
 			Thread magThread = new Thread(new Runnable(){

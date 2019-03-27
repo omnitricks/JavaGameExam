@@ -4,9 +4,10 @@ public class Sound {
 
     private Clip clip;
 
-    // Change file name to match yours, of course
-
-    public static Sound sound1 = new Sound("Jungle.wav");
+	//Add File
+    public static Sound bgSound = new Sound("Jungle.wav");
+	public static Sound atkSound = new Sound("Sword.wav");
+	public static Sound magSound = new Sound("Fireball.wav");
 	
     public Sound (String fileName) {
         try {
@@ -18,6 +19,7 @@ public class Sound {
         }
     }
 
+	//For Animation
     public void play() {
         try {
             if (clip != null) {
@@ -35,12 +37,14 @@ public class Sound {
             e.printStackTrace();
         }
     }
-
+	
+	//To Stop
     public void stop(){
         if(clip == null) return;
         clip.stop();
     }
 	
+	//For BG
     public void loop() {
         try {
             if (clip != null) {
@@ -58,6 +62,7 @@ public class Sound {
             e.printStackTrace();
         }
     }
+	
     public boolean isActive(){
 		return clip.isActive();
 	}

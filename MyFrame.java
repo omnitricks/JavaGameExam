@@ -7,7 +7,7 @@ public class MyFrame extends JFrame implements KeyListener{
 	Draw drawing;
 
 	public MyFrame(){
-		Sound.sound1.loop();
+		Sound.bgSound.loop();
 		this.drawing = new Draw();
 		int heightBG = drawing.backgroundImage.getHeight() +149;
 		int widthBG = drawing.backgroundImage.getWidth() +16;
@@ -57,6 +57,7 @@ public class MyFrame extends JFrame implements KeyListener{
 		}
 		
 		else if(e.getKeyCode() == KeyEvent.VK_SPACE){
+			Sound.atkSound.play();
 			drawing.hero1.attack();
 			System.out.println("attack");
 		}
@@ -70,6 +71,7 @@ public class MyFrame extends JFrame implements KeyListener{
 			drawing.useMpPotion();
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_A){
+			Sound.magSound.play();
 			drawing.spawnMagic();
 		}
 	}
